@@ -5,10 +5,17 @@ import editAvatarIconPath from "../images/pencil.svg";
 import api from "../utils/api";
 import Card from "./Card";
 
-function Main(props) {
+function Main({
+  onEditProfileClick,
+  onAddPlaceClick,
+  onEditAvatarClick,
+  onCardClick,
+  onDeleteClick,
+}) {
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+  const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
     api
       .getUserInfo()
@@ -21,7 +28,6 @@ function Main(props) {
         console.log(err);
       });
   }, []);
-  const [cards, setCards] = React.useState([]);
   React.useEffect(() => {
     api
       .getInitialCards()
@@ -35,7 +41,7 @@ function Main(props) {
   return (
     <main>
       <section className="user">
-        <div className="user__avatar-wrapper" onClick={props.onEditAvatarClick}>
+        <div className="user__avatar-wrapper" onClick={onEditAvatarClick}>
           <img
             className="user__avatar"
             id="jacques"
@@ -55,7 +61,7 @@ function Main(props) {
               className="user__edit-button"
               type="button"
               aria-label="Edit profile"
-              onClick={props.onEditProfileClick}
+              onClick={onEditProfileClick}
             >
               <img
                 className="user__edit-button-icon"
@@ -70,7 +76,7 @@ function Main(props) {
           className="user__add-button"
           type="button"
           aria-label="Add picture"
-          onClick={props.onAddPlaceClick}
+          onClick={onAddPlaceClick}
         >
           <img src={addCardIconPath} alt="white cross"></img>
         </button>
@@ -80,8 +86,8 @@ function Main(props) {
           <Card
             key={item._id}
             cardData={item}
-            onCardClick={props.onCardClick}
-            onDeleteClick={props.onDeleteClick}
+            onCardClick={onCardClick}
+            onDeleteClick={onDeleteClick}
           />
         ))}
       </section>
