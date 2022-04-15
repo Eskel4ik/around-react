@@ -1,6 +1,6 @@
 import closeButtonPath from "../images/addButton.svg";
 
-function PopupWithForm({ name, title, isOpen, buttonText, onClose, children }) {
+function PopupWithForm({ name, title, isOpen, buttonText, onClose, onSubmit, children }) {
   return (
     <section
       className={`popup popup_type_${name} ${isOpen && "popup_visible"}`}
@@ -17,6 +17,7 @@ function PopupWithForm({ name, title, isOpen, buttonText, onClose, children }) {
           className={`popup__form popup__form-${name}`}
           action="#"
           name={name}
+          onSubmit={onSubmit}
         >
           <h2 className="popup__title">{title}</h2>
           {children}

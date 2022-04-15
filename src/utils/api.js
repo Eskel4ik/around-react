@@ -63,12 +63,15 @@ class Api extends React.Component {
             headers: this._headers,
         }).then(this._checkResponce);
     }
+    changeLikeCardStatus(cardData, isLiked) {
+        return !isLiked ? this.likeAdd(cardData) : this.likeDelete(cardData);
+    }
     editProfilePhoto(data) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: "PATCH",
             headers: this._headers,
             body: JSON.stringify({
-                avatar: data
+                avatar: data.avatar
             })
         }).then(this._checkResponce);
     }

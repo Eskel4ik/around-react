@@ -2,8 +2,8 @@ import React from "react";
 import editIconPath from "../images/editButton.svg";
 import addCardIconPath from "../images/addButton.svg";
 import editAvatarIconPath from "../images/pencil.svg";
-import api from "../utils/api";
 import Card from "./Card";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Main({
   onEditProfileClick,
@@ -11,33 +11,11 @@ function Main({
   onEditAvatarClick,
   onCardClick,
   onDeleteClick,
+  cards,
+  onCardLike,
+  onCardDelete
 }) {
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
-  const [cards, setCards] = React.useState([]);
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then((res) => {
-        setUserName(res.name);
-        setUserDescription(res.about);
-        setUserAvatar(res.avatar);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then((res) => {
-        setCards(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const currentUser = React.useContext(CurrentUserContext);
   return (
     <main>
       <section className="user">
@@ -45,7 +23,7 @@ function Main({
           <img
             className="user__avatar"
             id="jacques"
-            src={userAvatar}
+            src={currentUser.avatar}
             alt="user"
           ></img>
           <img
@@ -56,7 +34,7 @@ function Main({
         </div>
         <div className="user__text-container">
           <div className="user__title-container">
-            <h1 className="user__name">{userName}</h1>
+            <h1 className="user__name">{currentUser.name}</h1>
             <button
               className="user__edit-button"
               type="button"
@@ -70,7 +48,7 @@ function Main({
               ></img>
             </button>
           </div>
-          <p className="user__info">{userDescription}</p>
+          <p className="user__info">{currentUser.about}</p>
         </div>
         <button
           className="user__add-button"
@@ -88,6 +66,8 @@ function Main({
             cardData={item}
             onCardClick={onCardClick}
             onDeleteClick={onDeleteClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
           />
         ))}
       </section>
